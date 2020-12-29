@@ -56,7 +56,7 @@ class Wayforpay extends Payment implements \Commerce\Interfaces\Payment
 
     public function getPaymentMarkup()
     {
-        $order     = $this->processor->getOrder();
+        $order   = $this->processor->getOrder();
 
         /** @var OrderCart $cart */
         $cart = $this->processor->getCart();
@@ -123,6 +123,10 @@ class Wayforpay extends Payment implements \Commerce\Interfaces\Payment
     }
     private function tryProcessedPayment()
     {
+        $this->modx->logEvent(1,1,json_encode([
+            'request'=>$_REQUEST,
+            'input'=>file_get_contents('php://input')
+        ]),'Wayforpay');
         $transaction = $this->getVerifiedSuccessTransaction();
         $payment = $this->getPaymentByHash($transaction->getOrderReference());
 
