@@ -27,6 +27,10 @@ class Wayforpay extends Payment implements \Commerce\Interfaces\Payment
      * @var bool
      */
     private $testMode;
+    /**
+     * @var bool
+     */
+    private $debug = false;
 
     /** @var OrdersProcessor $processor */
     private $processor;
@@ -40,6 +44,7 @@ class Wayforpay extends Payment implements \Commerce\Interfaces\Payment
         $this->lang = $this->commerce->getUserLanguage('wayforpay');
 
         $this->testMode = intval($this->getSetting('testMode')) === 1;
+        $this->debug = intval($this->getSetting('debug')) === 1;
         $this->processor = $this->modx->commerce->loadProcessor();
 
 
@@ -117,16 +122,18 @@ class Wayforpay extends Payment implements \Commerce\Interfaces\Payment
             $payment = $this->tryProcessedPayment();
             return $this->successResponse($payment);
         } catch (\Exception $e) {
-            $this->modx->logEvent(1,3,$e->getMessage(),'WayForPay');
+            if ($this->debug) $this->modx->logEvent(1,3,$e->getMessage(),'WayForPay');
             return $this->errorResponse();
         }
     }
     private function tryProcessedPayment()
     {
-        $this->modx->logEvent(1,1,json_encode([
-            'request'=>$_REQUEST,
-            'input'=>file_get_contents('php://input')
-        ]),'Wayforpay');
+        if ($this->debug) {
+            $this->modx->logEvent(1,1,json_encode([
+                'request'=>$_REQUEST,
+                'input'=>file_get_contents('php://input')
+            ]),'Wayforpay');
+        }
         $transaction = $this->getVerifiedSuccessTransaction();
         $payment = $this->getPaymentByHash($transaction->getOrderReference());
 
