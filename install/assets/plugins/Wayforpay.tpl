@@ -8,7 +8,7 @@
  * @version     0.1
  * @author      dzhuryn
  * @internal    @events OnRegisterPayments
- * @internal    @properties &title=Title;text; &merchantAccount=Merchant Account;text; &merchantSecretKey=Merchant Secret Key;text; &merchantDomainName=Merchant Domain Name;text; &testMode=Test access;list;Yes==1||No==0;1
+ * @internal    @properties &title=Title;text; &merchantAccount=Merchant Account;text; &merchantSecretKey=Merchant Secret Key;text; &merchantDomainName=Merchant Domain Name;text; &testMode=Test access;list;Yes==1||No==0;1 &debug=Debug;list;Yes==1||No==0;1
  * @internal    @modx_category Commerce
  * @internal    @disabled 0
  * @internal    @installset base
